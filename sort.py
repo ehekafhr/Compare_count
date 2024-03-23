@@ -22,4 +22,13 @@ def insert_sort(lst):
 #선택 정렬
 def selection_sort(lst):
     n = len(lst) 
-    
+
+#merge sort
+#TODO
+def merge_sort(lst):
+    pass
+
+#quick sort
+#TODO
+def quick_sort(lst):
+    pass
