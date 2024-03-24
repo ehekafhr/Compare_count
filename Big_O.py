@@ -1,6 +1,7 @@
 import math as m
 import random as r
 import sort
+import copy
 
 class Tracked_Values:
     comp_count = 0
@@ -8,6 +9,10 @@ class Tracked_Values:
     def __init__(self, value):
         self.value = value
     
+    @staticmethod
+    def get_comp():
+        return Tracked_Values.comp_count
+
     @staticmethod
     def reset():
         Tracked_Values.comp_count = 0
@@ -45,12 +50,46 @@ class Tracked_Values:
     def __ge__(self, other):
         return self.value >= other.value
     
+class Test:
+    lst = []
+    print = False
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def generate(length, max):
+        Test.lst = []
+        for i in range(length):
+            Test.lst.append(Tracked_Values(r.randint(0,max+1)))
+    
+    @staticmethod
+    def set_print():
+        Test.print = True
+    
+    @staticmethod
+    def not_print():
+        Test.print = False
+
+    @staticmethod
+    def test(sort):
+        lst = copy.deepcopy(Test.lst)
+
+        #Set comparision count zero.
+        Tracked_Values.reset()
+        sorted_lst = sort(lst)
+        if(Test.print):
+            print(sort.__name__)
+            for e in lst:
+                print(e,end=" ")      
+            print("")
+            for e in sorted_lst:
+                print(e,end=" ")
+            print("")
+            print(Tracked_Values.get_comp())
+        return sorted_lst, Tracked_Values.get_comp()
+
 
 if __name__ == "__main__":
-    print("bubble sort")
-    lst = [] 
-    for i in range(50):
-        lst.append(Tracked_Values(r.randint(0,100))) #0부터 99사이의 숫자 50개.
-    Tracked_Values.reset()
-    sort.bubble_sort(lst)
-    print(Tracked_Values.count)
+    Test.generate(50,100)
+    Test.set_print()
+    lst2, count = Test.test(sort.bubble_sort)

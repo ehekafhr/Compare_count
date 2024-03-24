@@ -1,15 +1,17 @@
 import math as m 
-
+import copy
 
 #버블 정렬
-def bubble_sort(lst):
-    n = len(lst)
-    for i in range(n-1):
-        for j in range(n-1):
+def bubble_sort(l):
+    n = len(l)
+    lst = copy.deepcopy(l)
+    for j in range(n-1):
+        for i in range(n-1):
             if lst[i]>lst[i+1]:
                 temp = lst[i+1]
                 lst[i+1] = lst[i]
                 lst[i] = temp
+    return lst
 
 #삽입 정렬
 def insert_sort(lst):
