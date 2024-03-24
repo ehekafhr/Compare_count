@@ -8,7 +8,6 @@ class Tracked_Values:
     write_count = 0
     def __init__(self, value):
         self.value = value
-    
     @staticmethod
     def get_comp():
         return Tracked_Values.comp_count
@@ -20,6 +19,7 @@ class Tracked_Values:
     def __str__(self):
         return str(self.value)
 
+    #비교 연산자가 실행될 때 비교 연산뿐만 아니라 count도 1 증가시키도록 변화
     def trace_comp(comp):
         def wrapper(*args, **kwargs):
             Tracked_Values.comp_count += 1
@@ -90,6 +90,8 @@ class Test:
 
 
 if __name__ == "__main__":
-    Test.generate(50,100)
+    Test.generate(10,1000)
     Test.set_print()
     lst2, count = Test.test(sort.bubble_sort)
+    lst2, count = Test.test(sort.selection_sort)
+    lst2, count = Test.test(sort.insert_sort)
