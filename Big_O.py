@@ -46,9 +46,6 @@ class Tracked_Values:
         return self.value >= other.value
     
 
-
-
-
 if __name__ == "__main__":
     print("bubble sort")
     lst = [] 

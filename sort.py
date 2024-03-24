@@ -1,5 +1,6 @@
 import math as m 
 
+
 #버블 정렬
 def bubble_sort(lst):
     n = len(lst)
@@ -16,7 +17,6 @@ def insert_sort(lst):
     lst2 = lst
     for i in range(n-1):
         for j in range(n-1-i):
-            
             pass
 
 #선택 정렬
