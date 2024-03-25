@@ -1,55 +1,10 @@
 import math as m
 import random as r
 import sort
+import Tracker
 import copy
+import matplotlib.pyplot as plt
 
-class Tracked_Values:
-    comp_count = 0
-    write_count = 0
-    def __init__(self, value):
-        self.value = value
-    @staticmethod
-    def get_comp():
-        return Tracked_Values.comp_count
-
-    @staticmethod
-    def reset():
-        Tracked_Values.comp_count = 0
-
-    def __str__(self):
-        return str(self.value)
-
-    #비교 연산자가 실행될 때 비교 연산뿐만 아니라 count도 1 증가시키도록 변화
-    def trace_comp(comp):
-        def wrapper(*args, **kwargs):
-            Tracked_Values.comp_count += 1
-            return comp(*args, **kwargs)
-        return wrapper
-    
-    @trace_comp
-    def __lt__(self, other):
-        return self.value < other.value
-    
-    @trace_comp
-    def __le__(self, other):
-        return self.value <= other.value
-    
-    @trace_comp
-    def __eq__(self, other):
-        return self.value == other.value
-    
-    @trace_comp
-    def __ne__(self, other):
-        return self.value != other.value
-
-    @trace_comp
-    def __gt__(self, other):
-        return self.value > other.value
-    
-    @trace_comp
-    def __ge__(self, other):
-        return self.value >= other.value
-    
 class Test:
     lst = []
     print = False
@@ -60,7 +15,7 @@ class Test:
     def generate(length, max):
         Test.lst = []
         for i in range(length):
-            Test.lst.append(Tracked_Values(r.randint(0,max+1)))
+            Test.lst.append(Tracker.Tracked_Values(r.randint(0,max+1)))
     
     @staticmethod
     def set_print():
@@ -71,11 +26,11 @@ class Test:
         Test.print = False
 
     @staticmethod
-    def test(sort):
+    def unit_test(sort):
         lst = copy.deepcopy(Test.lst)
 
         #Set comparision count zero.
-        Tracked_Values.reset()
+        Tracker.Tracked_Values.reset()
         sorted_lst = sort(lst)
         if(Test.print):
             print(sort.__name__)
@@ -85,13 +40,34 @@ class Test:
             for e in sorted_lst:
                 print(e,end=" ")
             print("")
-            print(Tracked_Values.get_comp())
-        return sorted_lst, Tracked_Values.get_comp()
-
+            print(Tracker.Tracked_Values.get_comp())
+        return sorted_lst, Tracker.Tracked_Values.get_comp()
+    
+    #sorts -> list of sorts.
+    #range -> list of number of length
+    #max -> max integer
+    @staticmethod
+    def time_test(sorts, lengths, max):
+        lst = []
+        number = len(lengths)
+        for i in range(len(sorts)):
+            lst.append([])
+        for a, length in enumerate(lengths):
+            if a%10 == 0:
+                print(a*100/number, "%")
+            Test.generate(length,max)
+            for i, sort in enumerate(sorts):
+                sorted_lst, cnt = Test.unit_test(sort)
+                lst[i].append(cnt)
+        for i, counts in enumerate(lst):
+            plt.plot(counts, label = sorts[i].__name__)
+        plt.yscale('log')
+        plt.legend()
+        plt.show()
 
 if __name__ == "__main__":
-    Test.generate(10,1000)
-    Test.set_print()
-    lst2, count = Test.test(sort.bubble_sort)
-    lst2, count = Test.test(sort.selection_sort)
-    lst2, count = Test.test(sort.insert_sort)
+    sorts = sort.sorts()
+    lengths= range(10,2000,10)
+    max = 10000009
+    Test.not_print()
+    Test.time_test(sorts,lengths,max)

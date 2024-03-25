@@ -1,5 +1,6 @@
 import math as m 
 import copy
+import Tracker
 
 #버블 정렬
 def bubble_sort(l):
@@ -41,12 +42,51 @@ def selection_sort(lst):
     return lst3
 
 #merge sort
-#TODO
-def merge_sort(lst):
+def merge(lst1, lst2):
+    result = []
+    n = Tracker.Tracked_Values(len(lst1)) # first list
+    m = Tracker.Tracked_Values(len(lst2)) # second list
+    p1 = Tracker.Tracked_Values(0) # pivot of first list
+    p2 = Tracker.Tracked_Values(0) # pivot of second list
 
-    pass
+    while p1< n and p2 < m:
+        if lst1[p1.value]<lst2[p2.value]:
+            result.append(lst1[p1.value])
+            p1.value+=1
+        else:
+            result.append(lst2[p2.value])
+            p2.value+=1
+
+    if p1<n:
+        result.extend(lst1[p1.value:])
+    else:
+        result.extend(lst2[p2.value:])
+
+    return result
+
+def merge_sort(lst):
+    n = len(lst)
+    pivot = int(n/2)
+    
+    #least case
+    if n==1:
+        return lst
+    
+    left = lst[:pivot]
+    right = lst[pivot:]
+
+    left_sorted = merge_sort(left)
+    right_sorted = merge_sort(right)
+
+    return merge(left_sorted, right_sorted)
 
 #quick sort
 #TODO
 def quick_sort(lst):
     pass
+
+def python_sort(lst):
+    return sorted(lst)
+
+def sorts():
+    return [bubble_sort, insert_sort, selection_sort, merge_sort,python_sort]
