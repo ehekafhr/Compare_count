@@ -1,7 +1,7 @@
-
-import tracker
+from .tracker import Tracked_Values
 import copy
 import matplotlib.pyplot as plt
+import random as r
 
 class Test:
     lst = []
@@ -13,7 +13,7 @@ class Test:
     def generate(length, max):
         Test.lst = []
         for i in range(length):
-            Test.lst.append(tracker.Tracked_Values(r.randint(0,max+1)))
+            Test.lst.append(Tracked_Values(r.randint(0,max+1)))
     
     @staticmethod
     def set_print():
@@ -28,7 +28,7 @@ class Test:
         lst = copy.deepcopy(Test.lst)
 
         #Set comparision count zero.
-        tracker.Tracked_Values.reset()
+        Tracked_Values.reset()
         sorted_lst = sort(lst)
         if(Test.print):
             print(sort.__name__)
@@ -38,14 +38,14 @@ class Test:
             for e in sorted_lst:
                 print(e,end=" ")
             print("")
-            print(tracker.Tracked_Values.get_comp())
-        return sorted_lst, tracker.Tracked_Values.get_comp()
+            print(Tracked_Values.get_comp())
+        return sorted_lst, Tracked_Values.get_comp()
     
     #sorts -> list of sorts.
     #range -> list of number of length
     #max -> max integer
     @staticmethod
-    def time_test(sorts, lengths, max):
+    def time_test(sorts, lengths, max, save = False):
         lst = []
         number = len(lengths)
         for i in range(len(sorts)):
@@ -62,3 +62,4 @@ class Test:
         plt.yscale('log')
         plt.legend()
         plt.show()
+        

@@ -1,6 +1,6 @@
 import math as m 
 import copy
-import tracker
+from .tracker import Tracked_Values
 
 #버블 정렬
 def bubble_sort(l):
@@ -44,10 +44,10 @@ def selection_sort(lst):
 #merge sort
 def merge(lst1, lst2):
     result = []
-    n = tracker.Tracked_Values(len(lst1)) # first list
-    m = tracker.Tracked_Values(len(lst2)) # second list
-    p1 = tracker.Tracked_Values(0) # pivot of first list
-    p2 = tracker.Tracked_Values(0) # pivot of second list
+    n = Tracked_Values(len(lst1)) # first list
+    m = Tracked_Values(len(lst2)) # second list
+    p1 = Tracked_Values(0) # pivot of first list
+    p2 = Tracked_Values(0) # pivot of second list
 
     while p1< n and p2 < m:
         if lst1[p1.value]<lst2[p2.value]:
